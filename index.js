@@ -1,6 +1,3 @@
-const express = require('express')
-const app = express()
-const mysql = require('mysql')
 
 const db = mysql.createPool({
 
@@ -11,19 +8,25 @@ const db = mysql.createPool({
 
 })
 
+
+const express = require('express')
+const app = express()
+const mysql = require('mysql')
+
+
 app.get('/', (req, res) => {
     const query = 'SELECT * FROM users'
     db.query(query, (err, results) => {
         if (err) {
             res.status(500).send(err)
-        } else {
-            res.json(results)
         }
         
         res.send(results)
     })
+    
 })
+const port = process.env.PORT || 3001;
 
-app.listen(process.env.PORT || 3001, () => {
+app.listen(port, () => {
     console.log("Server is running on port 3001")
 })
