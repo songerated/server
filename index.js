@@ -14,6 +14,12 @@ const db = mysql.createPool({
 app.get('/', (req, res) => {
     const query = 'SELECT * FROM users'
     db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        } else {
+            res.json(results)
+        }
+        
         res.send(results)
     })
 })
