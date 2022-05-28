@@ -1,4 +1,11 @@
 
+
+
+
+const express = require('express')
+const app = express()
+const mysql = require('mysql')
+
 const db = mysql.createPool({
 
     host: 'verse-db.mysql.database.azure.com',
@@ -7,12 +14,6 @@ const db = mysql.createPool({
     database: 'versemain'
 
 })
-
-
-const express = require('express')
-const app = express()
-const mysql = require('mysql')
-
 
 app.get('/', (req, res) => {
     const query = 'SELECT * FROM users'
