@@ -10,7 +10,9 @@ const db = mysql.createPool({
     host: 'verse-db.mysql.database.azure.com',
     user: 'Verse123',
     password: 'Dundermifflinpapercompany123',
-    database: 'versemain'
+    database: 'versemain',
+    multipleStatements: true
+
 
 })
 
@@ -31,19 +33,41 @@ app.get('/', (req, res) => {
 app.post('/tracks',(req,res)=>{
     
     var body = req.body.items;
-    var name = body[0].name
-    var id = body[0].id
 
-    var sql = `INSERT INTO temp(id, name)VALUES('${id}', '${name}' );`;
+    for(var i = 0; i < body.length; i++){
+
+    }
+
+    var artistQuery = ""
+    var albumQuery = ""
+    var songQuery = ""
+
+    for(var i = 0; i < body.length; i++){
+        var artistName = body[i].artists[0].name
+        var albumName = body[i].album.name
+        var song_name = body[i].name
+        artistName = artistName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
+        albumName = albumName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
+        song_name = song_name.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
+        artistQuery += `INSERT INTO artist(artist_id, artist_name)VALUES('${body[i].artists[0].id}', '${artistName}') ON DUPLICATE KEY UPDATE artist_id=artist_id;`
+        albumQuery += `INSERT INTO album(album_id, album_name, artist_id)VALUES('${body[i].album.id}', '${albumName}', '${body[i].artists[0].id}') ON DUPLICATE KEY UPDATE album_id=album_id;`
+        songQuery += `INSERT INTO songs(song_id, song_name, album_id, genre_id)VALUES('${body[i].id}', '${song_name}', '${body[i].album.id}', '1' )  ON DUPLICATE KEY UPDATE song_id=song_id;`
+    }
+
+    var sql = artistQuery + albumQuery + songQuery;
     db.query(sql, (err, results)=>{
         if(err){
             res.status(500).send(err);
         }
         else {
-            console.log(results);
-            res.send(results);
+            res.send(results)
         }
     })
+    
+   
+    
+
+
     
 
 })
