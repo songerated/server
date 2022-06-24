@@ -31,16 +31,16 @@ app.get('/', (req, res) => {
 })
 
 app.post('/tracks',(req,res)=>{
-    
-    var body = req.body.items;
+    var body = req.body.topTracks.items;
+    var id = req.body.uid;
 
-    for(var i = 0; i < body.length; i++){
-
-    }
+    console.log(id)
+    console.log(body)
 
     var artistQuery = ""
     var albumQuery = ""
     var songQuery = ""
+    var userInfo = ""
 
     for(var i = 0; i < body.length; i++){
         var artistName = body[i].artists[0].name
@@ -52,9 +52,10 @@ app.post('/tracks',(req,res)=>{
         artistQuery += `INSERT INTO artist(artist_id, artist_name)VALUES('${body[i].artists[0].id}', '${artistName}') ON DUPLICATE KEY UPDATE artist_id=artist_id;`
         albumQuery += `INSERT INTO album(album_id, album_name, artist_id)VALUES('${body[i].album.id}', '${albumName}', '${body[i].artists[0].id}') ON DUPLICATE KEY UPDATE album_id=album_id;`
         songQuery += `INSERT INTO songs(song_id, song_name, album_id, genre_id)VALUES('${body[i].id}', '${song_name}', '${body[i].album.id}', '1' )  ON DUPLICATE KEY UPDATE song_id=song_id;`
+        userInfo += `INSERT INTO user_info(song_id, user_id)VALUES('${body[i].id}', '${id}');`
     }
 
-    var sql = artistQuery + albumQuery + songQuery;
+    var sql = artistQuery + albumQuery + songQuery + userInfo;
     db.query(sql, (err, results)=>{
         if(err){
             res.status(500).send(err);
@@ -63,14 +64,27 @@ app.post('/tracks',(req,res)=>{
             res.send(results)
         }
     })
-    
-   
-    
-
-
-    
-
 })
+
+
+
+
+app.get('/usercreds', (req, res) => {
+    const id=req.query.id;
+    const name = req.query.name;
+    const email = req.query.email;
+
+    const query = `INSERT INTO users(id, username, name, email)VALUES('${id}', '${name}', '${name}', '${email}') ON DUPLICATE KEY UPDATE id=id;`
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        
+        res.send(results)
+    })
+    
+})
+
 
 
 
@@ -79,15 +93,3 @@ const port = process.env.PORT || 3001;
 app.listen(port, () => {
     console.log("Server is running on port 3001")
 })
-
-function queryExecute(sql,res){
-    db.query(sql, function(err, results){
-        if(err){
-            console.log(err);
-          
-        }
-        res.json(results);
-        console.log(results);
-
-    });
-}
