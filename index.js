@@ -66,6 +66,19 @@ app.post('/tracks',(req,res)=>{
     })
 })
 
+app.get('/users', (req, res) => {   
+    const query = 'SELECT * FROM users'
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        
+        res.send(results)
+    })
+      
+    
+})
+
 
 
 
