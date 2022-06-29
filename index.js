@@ -99,6 +99,55 @@ app.get('/usercreds', (req, res) => {
 })
 
 
+app.get('/matchingusers', (req, res) => {
+    const id="1sSmJHMS5Ta6GaTT024O1hoUR8s1";
+    let songs = []
+    let usersCMatchCount = new Map();
+    const admin_songs_query = `SELECT song_id FROM user_info where user_id = '${id}'`
+    const users_song_query = `SELECT * FROM user_info`
+
+    db.query(admin_songs_query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        for(let i = 0; i < results.length; i++){
+            console.log(results[i])
+            songs.push(results[i].song_id)
+        }
+
+        db.query(users_song_query, (err, results) => {
+            if (err) {
+                res.status(500).send(err)
+            }
+    
+            for(let i = 0; i < results.length; i++){
+                if(results[i].user_id != id){
+                    if(songs.includes(results[i].song_id)){
+                        if(usersCMatchCount.has(results[i].user_id)){
+                            usersCMatchCount.set(results[i].user_id, usersCMatchCount.get(results[i].user_id) + 1)
+                        }
+                        else{
+                            usersCMatchCount.set(results[i].user_id, 1)
+                        }
+                    }
+                }
+            }
+            
+            console.log(usersCMatchCount)
+            res.send(results)
+        })
+    
+    })
+
+    
+
+    
+})
+
+
+
+
+
 
 
 const port = process.env.PORT || 3001;
