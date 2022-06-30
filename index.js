@@ -100,7 +100,7 @@ app.get('/usercreds', (req, res) => {
 
 
 app.get('/matchingusers', (req, res) => {
-    const id="1sSmJHMS5Ta6GaTT024O1hoUR8s1";
+    const id=req.query.uid;
     let songs = []
     let usersCMatchCount = new Map();
     const admin_songs_query = `SELECT song_id FROM user_info where user_id = '${id}'`
