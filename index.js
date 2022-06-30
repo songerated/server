@@ -115,28 +115,34 @@ app.get('/matchingusers', (req, res) => {
             songs.push(results[i].song_id)
         }
 
-        db.query(users_song_query, (err, results) => {
-            if (err) {
-                res.status(500).send(err)
-            }
+        
     
-            for(let i = 0; i < results.length; i++){
-                if(results[i].user_id != id){
-                    if(songs.includes(results[i].song_id)){
-                        if(usersCMatchCount.has(results[i].user_id)){
-                            usersCMatchCount.set(results[i].user_id, usersCMatchCount.get(results[i].user_id) + 1)
-                        }
-                        else{
-                            usersCMatchCount.set(results[i].user_id, 1)
-                        }
+    })
+
+    db.query(users_song_query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+
+        for(let i = 0; i < results.length; i++){
+            if(results[i].user_id != id){
+                if(songs.includes(results[i].song_id)){
+                    if(usersCMatchCount.has(results[i].user_id)){
+                        usersCMatchCount.set(results[i].user_id, usersCMatchCount.get(results[i].user_id) + 1)
+                    }
+                    else{
+                        usersCMatchCount.set(results[i].user_id, 1)
                     }
                 }
             }
-            
-            console.log(usersCMatchCount)
-            res.send(results)
-        })
-    
+        }
+        
+        console.log(id)
+        console.log(usersCMatchCount)
+        const obj = Object.fromEntries(usersCMatchCount);
+        const json = JSON.stringify(obj);
+        console.log(json)
+        res.send(json)
     })
 
     
