@@ -129,7 +129,7 @@ app.get('/matchingusers', (req, res) => {
                 if(songs.includes(results[i].song_id)){
                     if(usersCMatchCount.has(results[i].user_id)){
                         usersCMatchCount.set(results[i].user_id, usersCMatchCount.get(results[i].user_id) + 1)
-                    }
+                    } 
                     else{
                         usersCMatchCount.set(results[i].user_id, 1)
                     }
@@ -151,6 +151,18 @@ app.get('/matchingusers', (req, res) => {
 })
 
 
+app.get("/userinfo", (req, res) => {
+
+    const id=req.query.uid;
+    const query = `SELECT * FROM users WHERE id = '${id}'`
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+
+        res.send(results)
+    })
+})
 
 
 
