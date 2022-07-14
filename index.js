@@ -150,11 +150,72 @@ app.get('/matchingusers', (req, res) => {
     
 })
 
+app.get('/matchingusers2', (req, res) => {
+    const id=req.query.uid;
+    let artists = []
+    let usersCMatchCount = new Map();
+
+
+    const user_artists_query = "SELECT user_info.user_id, artist.artist_id FROM versemain.user_info join songs on user_info.song_id = songs.song_id join album on songs.album_id = album.album_id join artist on album.artist_id = artist.artist_id;"
+    const admin_artists_query = `SELECT user_info.user_id, artist.artist_id FROM versemain.user_info join songs on user_info.song_id = songs.song_id join album on songs.album_id = album.album_id join artist on album.artist_id = artist.artist_id where user_info.user_id = '${id}';`
+
+    db.query(admin_artists_query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        for(let i = 0; i < results.length; i++){
+            console.log(results[i])
+            artists.push(results[i].artist_id)
+        }
+    })
+
+    db.query(user_artists_query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+
+        for(let i = 0; i < results.length; i++){
+            if(results[i].user_id != id){
+                if(artists.includes(results[i].artist_id)){
+                    if(usersCMatchCount.has(results[i].user_id)){
+                        usersCMatchCount.set(results[i].user_id, usersCMatchCount.get(results[i].user_id) + 1)
+                    } 
+                    else{
+                        usersCMatchCount.set(results[i].user_id, 1)
+                    }
+                }
+            }
+        }
+        
+        console.log(id)
+        console.log(usersCMatchCount)
+        const obj = Object.fromEntries(usersCMatchCount);
+        const json = JSON.stringify(obj);
+        console.log(json)
+        res.send(json)
+    })
+
+
+})
+
 
 app.get("/userinfo", (req, res) => {
 
     const id=req.query.uid;
     const query = `SELECT * FROM users WHERE id = '${id}'`
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+
+        res.send(results)
+    })
+})
+
+app.get("/verifyuser", (req, res) => {
+    const id = req.query.id;
+    const query = `SELECT * FROM user_info WHERE user_id = '${id}'`  
+
     db.query(query, (err, results) => {
         if (err) {
             res.status(500).send(err)
