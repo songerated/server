@@ -188,6 +188,8 @@ app.get('/matchingusers2', (req, res) => {
         }
         
         console.log(id)
+                console.log(id)
+
         console.log(usersCMatchCount)
         const obj = Object.fromEntries(usersCMatchCount);
         const json = JSON.stringify(obj);
