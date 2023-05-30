@@ -25,22 +25,22 @@ const db = mysql.createPool({
     port: 25060
 })
 
-const connection = mysql.createConnection({
-    username: 'doadmin',
-    password: 'AVNS_ull6nQgEG3vmSB-NVNx',
-    host: 'db-mysql-blr1-78917-do-user-14172153-0.b.db.ondigitalocean.com',
-    database: 'defaultdb',
-    multipleStatements: true,
-    port: 25060
-  });
+// const connection = mysql.createConnection({
+//     username: 'doadmin',
+//     password: 'AVNS_ull6nQgEG3vmSB-NVNx',
+//     host: 'db-mysql-blr1-78917-do-user-14172153-0.b.db.ondigitalocean.com',
+//     database: 'defaultdb',
+//     multipleStatements: true,
+//     port: 25060
+//   });
 
-  connection.connect((err) => {
-    if (err) {
-        console.log('Connection error message: ' + err.message);
-        return;
-    }
-    console.log('Connected!')
-});
+//   connection.connect((err) => {
+//     if (err) {
+//         console.log('Connection error message: ' + err.message);
+//         return;
+//     }
+//     console.log('Connected!')
+// });
     
 
 app.use(cors()) 
