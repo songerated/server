@@ -18,6 +18,10 @@ const db = mysql.createPool({
 
 app.use(cors()) 
 
+app.get('/test', (req, res) => {
+    res.send("hellooooo")
+})
+
 app.get('/', (req, res) => {
     const query = 'SELECT * FROM users'
     db.query(query, (err, results) => {
