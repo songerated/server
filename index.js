@@ -22,7 +22,7 @@ const db = mysql.createPool({
     host: 'db-mysql-blr1-78917-do-user-14172153-0.b.db.ondigitalocean.com',
     database: 'defaultdb',
     multipleStatements: true
-    )}
+})
     
 
 app.use(cors()) 
