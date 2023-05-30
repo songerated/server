@@ -33,7 +33,7 @@ app.get('/test', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    const query = 'SELECT * FROM dbo.users'
+    const query = 'SELECT * FROM defaultdb.users'
     db.query(query, (err, results) => {
         if (err) {
             res.status(500).send(err)
