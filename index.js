@@ -19,7 +19,8 @@ const db = mysql.createPool({
 app.use(cors()) 
 
 app.get('/test', (req, res) => {
-    res.send("hellooooo")
+    
+    res.send(db.getConnection())
 })
 
 app.get('/', (req, res) => {
