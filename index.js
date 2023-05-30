@@ -8,7 +8,7 @@ app.use(bodyParser.json())
 const db = mysql.createPool({
 
     host: 'verse-server.database.windows.net',
-    user: 'CloudSA44654426',
+    user: 'CloudSA44654426@verse-server',
     password: 'gudri@9852',
     database: 'verse-db',
     multipleStatements: true
