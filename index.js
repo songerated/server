@@ -5,16 +5,27 @@ const cors = require('cors')
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
+// const db = mysql.createPool({
+
+//     host: 'verse-server.database.windows.net',
+//     user: 'CloudSA44654426@verse-server',
+//     password: 'gudri@9852',
+//     database: 'verse-db',
+//     multipleStatements: true
+
+
+// })
+
 const db = mysql.createPool({
-
-    host: 'verse-server.database.windows.net',
-    user: 'CloudSA44654426@verse-server',
-    password: 'gudri@9852',
-    database: 'verse-db',
-    multipleStatements: true
-
-
-})
+    username: 'doadmin',
+    password: 'AVNS_ull6nQgEG3vmSB-NVNx',
+    host: 'db-mysql-blr1-78917-do-user-14172153-0.b.db.ondigitalocean.com',
+    port: 25060
+    database: 'defaultdb'
+    sslmode: 'REQUIRED'
+    
+    )}
+    
 
 app.use(cors()) 
 
