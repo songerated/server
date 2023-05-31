@@ -73,6 +73,8 @@ app.post('/tracks',(req,res)=>{
     var albumQuery = ""
     var songQuery = ""
     var userInfo = ""
+    
+    console.log(body)
 
     for(var i = 0; i < body.length; i++){
         var artistName = body[i].artists[0].name
