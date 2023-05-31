@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 // })
 
 const db = mysql.createPool({
-    username: 'doadmin',
+    user: 'doadmin',
     password: 'AVNS_ull6nQgEG3vmSB-NVNx',
     host: 'db-mysql-blr1-78917-do-user-14172153-0.b.db.ondigitalocean.com',
     database: 'defaultdb',
