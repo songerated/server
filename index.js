@@ -67,7 +67,7 @@ app.post('/addmovie', (req, res) => {
     var id = req.body.uid;
 
     var query = `INSERT INTO movies(id, Name)VALUES(${movie.id}, '${movie.original_title}') ON DUPLICATE KEY UPDATE id=id;`
-    query += `INSERT INTO user_movies(movie_id, user_id)VALUES(${movie.id}, '${id}');`
+    query += `INSERT INTO user_movies(id, movie_id, user_id)VALUES('${movie.id + id}', ${movie.id}, '${id}') ON DUPLICATE KEY UPDATE id=id;`
     db.query(query, (err, results) => {
         if (err) {
             res.status(500).send(err)
