@@ -62,6 +62,18 @@ app.get('/', (req, res) => {
     
 })
 
+app.get('/addmovie', (req, res) => {
+    const query = `INSERT INTO movies(id, Name)VALUES(1, 'The Matrix') ON DUPLICATE KEY UPDATE id=id`
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        
+        res.send(results)
+    })
+    
+})
+
 app.post('/tracks',(req,res)=>{
     var body = req.body.topTracks.items;
     var id = req.body.uid;
