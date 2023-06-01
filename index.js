@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
     
 })
 
-app.get('/addmovie', (req, res) => {
+app.post('/addmovie', (req, res) => {
     var movie = req.body.movie
     var id = req.body.uid;
 
