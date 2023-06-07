@@ -66,7 +66,7 @@ app.post('/addmovie', (req, res) => {
     var movie = req.body.movie
     var id = req.body.uid;
 
-    const query = `INSERT INTO movies(id, Name)VALUES(${movie.id}, ${movie.original_title}) ON DUPLICATE KEY UPDATE id=id;`
+    var query = `INSERT INTO movies(id, Name)VALUES(${movie.id}, ${movie.original_title}) ON DUPLICATE KEY UPDATE id=id;`
     query += `INSERT INTO user_movies(movie_id, user_id)VALUES(${movie.id}, ${id}) ON DUPLICATE KEY UPDATE id=id;`
     db.query(query, (err, results) => {
         if (err) {
@@ -127,6 +127,18 @@ app.get('/users', (req, res) => {
     })
       
     
+})
+
+app.get('/usermovies', (req, res) => {   
+    var userid = req.body.uid
+    const query = `SELECT * FROM user_movies where user_id = '${userid}';`
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        
+        res.send(results)
+    })
 })
 
 
