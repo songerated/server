@@ -143,8 +143,21 @@ app.get('/usermovies', (req, res) => {
     })
 })
 
-
-
+app.get('/usersongs', (req, res) => {   
+    var userid = req.query.uid
+    const query = `SELECT songs.song_name, album.album_name, artist.artist_name FROM defaultdb.user_info
+                    JOIN songs ON songs.song_id = user_info.song_id
+                    JOIN album ON songs.album_id = album.album_id
+                    JOIN artist ON album.artist_id = artist.artist_id
+                    where user_info.user_id =  '${userid}';`
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        
+        res.send(results)
+    })
+})
 
 app.get('/usercreds', (req, res) => {
     const id=req.query.id;
