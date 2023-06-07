@@ -131,7 +131,7 @@ app.get('/users', (req, res) => {
 
 app.get('/usermovies', (req, res) => {   
     var userid = req.body.uid
-    const query = `SELECT * FROM user_movies where user_id = '${userid}';`
+    const query = `SELECT * FROM defaultdb.user_movies where user_id = '${userid}';`
     db.query(query, (err, results) => {
         if (err) {
             res.status(500).send(err)
