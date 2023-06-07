@@ -130,7 +130,7 @@ app.get('/users', (req, res) => {
 })
 
 app.get('/usermovies', (req, res) => {   
-    var userid = req.body.uid
+    var userid = req.query.uid
     const query = `SELECT * FROM defaultdb.user_movies where user_id = '${userid}';`
     db.query(query, (err, results) => {
         if (err) {
