@@ -2,19 +2,27 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql2')
 const cors = require('cors')
+const google = require('googleapis')
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
-// const db = mysql.createPool({
 
-//     host: 'verse-server.database.windows.net',
-//     user: 'CloudSA44654426@verse-server',
-//     password: 'gudri@9852',
-//     database: 'verse-db',
-//     multipleStatements: true
+const oauth2Client = new google.auth.OAuth2(
+  '905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com',
+  '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',
+  'https://songerated.vercel.app/'
+);
 
+// generate a url that asks permissions for Blogger and Google Calendar scopes
+const scopes = [
+  'https://www.googleapis.com/auth/youtube.readonly',
+];
 
-// })
+const url = oauth2Client.generateAuthUrl({
+
+  // If you only need one scope you can pass it as a string
+  scope: scopes
+});
 
 const db = mysql.createPool({
     user: 'doadmin',
@@ -25,23 +33,6 @@ const db = mysql.createPool({
     port: 25060
 })
 
-// const connection = mysql.createConnection({
-//     username: 'doadmin',
-//     password: 'AVNS_ull6nQgEG3vmSB-NVNx',
-//     host: 'db-mysql-blr1-78917-do-user-14172153-0.b.db.ondigitalocean.com',
-//     database: 'defaultdb',
-//     multipleStatements: true,
-//     port: 25060
-//   });
-
-//   connection.connect((err) => {
-//     if (err) {
-//         console.log('Connection error message: ' + err.message);
-//         return;
-//     }
-//     console.log('Connected!')
-// });
-    
 
 app.use(cors()) 
 
@@ -59,6 +50,11 @@ app.get('/', (req, res) => {
         
         res.send(results)
     })
+    
+})
+
+app.get('/getgoogleapiauthuri', (req, res) => {
+    res.send(url)
     
 })
 
