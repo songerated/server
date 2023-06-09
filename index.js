@@ -42,7 +42,7 @@ app.get('/getgoogleapiauthuri', (req, res) => {
     const oauth2Client = new google.auth.OAuth2(
         '905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com',
         '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',
-        'https://songerated.vercel.app'
+        'http://localhost:3000/addyoutubechannels'
       );
       
       // generate a url that asks permissions for Blogger and Google Calendar scopes
