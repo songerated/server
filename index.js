@@ -7,7 +7,11 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 
-
+const oauth2Client = new google.auth.OAuth2(
+        '905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com',
+        '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',
+        'http://localhost:3000/addyoutubechannels'
+      );
 
 const db = mysql.createPool({
     user: 'doadmin',
@@ -39,11 +43,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/getgoogleapiauthuri', (req, res) => {
-    const oauth2Client = new google.auth.OAuth2(
-        '905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com',
-        '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',
-        'http://localhost:3000/addyoutubechannels'
-      );
+    
       
       // generate a url that asks permissions for Blogger and Google Calendar scopes
       const scopes = [
