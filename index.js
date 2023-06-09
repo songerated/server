@@ -60,7 +60,7 @@ app.get('/getgoogleapiauthuri', (req, res) => {
 })
 
 app.get("/getgoogletoken", async (req, res) => {
-    const code = req.query.code;
+    const code = '4/0AbUR2VNukLbdWqXfuroHwrYTqv7A4GPg4aoBeJc0yw2Up8H26f2cmdaly4q4b2AIvVnolg';
     const {tokens} = await oauth2Client.getToken(code)
     oauth2Client.setCredentials(tokens);
     res.send(tokens)
