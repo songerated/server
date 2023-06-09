@@ -2,27 +2,12 @@ const express = require('express')
 const app = express()
 const mysql = require('mysql2')
 const cors = require('cors')
-const google = require('googleapis')
+const {google} = require('googleapis')
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 
-const oauth2Client = new google.auth.OAuth2(
-  '905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com',
-  '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',
-  'https://songerated.vercel.app/'
-);
 
-// generate a url that asks permissions for Blogger and Google Calendar scopes
-const scopes = [
-  'https://www.googleapis.com/auth/youtube.readonly',
-];
-
-const url = oauth2Client.generateAuthUrl({
-
-  // If you only need one scope you can pass it as a string
-  scope: scopes
-});
 
 const db = mysql.createPool({
     user: 'doadmin',
@@ -54,6 +39,22 @@ app.get('/', (req, res) => {
 })
 
 app.get('/getgoogleapiauthuri', (req, res) => {
+    const oauth2Client = new google.auth.OAuth2(
+        '905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com',
+        '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',
+        'https://songerated.vercel.app'
+      );
+      
+      // generate a url that asks permissions for Blogger and Google Calendar scopes
+      const scopes = [
+        'https://www.googleapis.com/auth/youtube.readonly',
+      ];
+      
+      const url = oauth2Client.generateAuthUrl({
+      
+        // If you only need one scope you can pass it as a string
+        scope: scopes
+      });
     res.send(url)
     
 })
