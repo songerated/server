@@ -59,6 +59,13 @@ app.get('/getgoogleapiauthuri', (req, res) => {
     
 })
 
+app.get("/getgoogletoken", (req, res) => {
+    const code = req.query.code;
+    const {tokens} = await oauth2Client.getToken(code)
+    oauth2Client.setCredentials(tokens);
+    res.send(tokens)
+})
+
 app.post('/addmovie', (req, res) => {
     var movie = req.body.movie
     var id = req.body.uid;
