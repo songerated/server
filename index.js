@@ -51,7 +51,6 @@ app.get('/getgoogleapiauthuri', (req, res) => {
       ];
       
       const url = oauth2Client.generateAuthUrl({
-         access_type: 'offline',
         // If you only need one scope you can pass it as a string
         scope: scopes
       });
