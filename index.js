@@ -186,32 +186,34 @@ app.get("/matchingusers", (req, res) => {
       songs.push(results[i].song_id);
     }
     console.log(songs);
-  });
 
-  db.query(users_song_query, (err, results) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-
-    for (let i = 0; i < results.length; i++) {
-      if (results[i].user_id != id) {
-        if (songs.includes(results[i].song_id)) {
-          if (usersCMatchCount.has(results[i].user_id)) {
-            usersCMatchCount.set(
-              results[i].user_id,
-              usersCMatchCount.get(results[i].user_id) + 1
-            );
-          } else {
-            usersCMatchCount.set(results[i].user_id, 1);
+    db.query(users_song_query, (err, results) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+    
+        for (let i = 0; i < results.length; i++) {
+          if (results[i].user_id != id) {
+            if (songs.includes(results[i].song_id)) {
+              if (usersCMatchCount.has(results[i].user_id)) {
+                usersCMatchCount.set(
+                  results[i].user_id,
+                  usersCMatchCount.get(results[i].user_id) + 1
+                );
+              } else {
+                usersCMatchCount.set(results[i].user_id, 1);
+              }
+            }
           }
         }
-      }
-    }
-    console.log(usersCMatchCount);
-    var obj = Object.fromEntries(usersCMatchCount);
-    const json = JSON.stringify(obj);
-    res.send(json);
+        console.log(usersCMatchCount);
+        var obj = Object.fromEntries(usersCMatchCount);
+        const json = JSON.stringify(obj);
+        res.send(json);
+      });
   });
+
+  
 });
 
 app.get("/matchingmovies", (req, res) => {
@@ -230,32 +232,36 @@ app.get("/matchingmovies", (req, res) => {
         movies.push(results[i].movie_id);
       }
       console.log(movies);
-    });
+
+      db.query(user_movies_query, (err, results) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+        console.log(results)
+        for (let i = 0; i < results.length; i++) {
+          if (results[i].user_id !== id) {
+            if (movies.includes(results[i].movie_id)) {
+              if (usersCMovieMatchCount.has(results[i].user_id)) {
+                  usersCMovieMatchCount.set(
+                  results[i].user_id,
+                  usersCMovieMatchCount.get(results[i].user_id) + 1
+                );
+                console.log(usersCMovieMatchCount)
   
-    db.query(user_movies_query, (err, results) => {
-      if (err) {
-        res.status(500).send(err);
-      }
-  
-      for (let i = 0; i < results.length; i++) {
-        if (results[i].user_id != id) {
-          if (movies.includes(results[i].movie_id)) {
-            if (usersCMovieMatchCount.has(results[i].user_id)) {
-                usersCMovieMatchCount.set(
-                results[i].user_id,
-                usersCMovieMatchCount.get(results[i].user_id) + 1
-              );
-            } else {
-                usersCMovieMatchCount.set(results[i].user_id, 1);
+              } else {
+                  usersCMovieMatchCount.set(results[i].user_id, 1);
+              }
             }
           }
         }
-      }
-      console.log(usersCMovieMatchCount);
-      var obj = Object.fromEntries(usersCMovieMatchCount);
-      const json = JSON.stringify(obj);
-      res.send(json);
+        console.log(usersCMovieMatchCount);
+        var obj = Object.fromEntries(usersCMovieMatchCount);
+        const json = JSON.stringify(obj);
+        res.send(json);
+      });
     });
+  
+    
   });
 
 app.get("/matchingusers2", (req, res) => {
@@ -275,37 +281,39 @@ app.get("/matchingusers2", (req, res) => {
       console.log(results[i]);
       artists.push(results[i].artist_id);
     }
-  });
 
-  db.query(user_artists_query, (err, results) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-
-    for (let i = 0; i < results.length; i++) {
-      if (results[i].user_id != id) {
-        if (artists.includes(results[i].artist_id)) {
-          if (usersCMatchCount.has(results[i].user_id)) {
-            usersCMatchCount.set(
-              results[i].user_id,
-              usersCMatchCount.get(results[i].user_id) + 1
-            );
-          } else {
-            usersCMatchCount.set(results[i].user_id, 1);
+    db.query(user_artists_query, (err, results) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+    
+        for (let i = 0; i < results.length; i++) {
+          if (results[i].user_id != id) {
+            if (artists.includes(results[i].artist_id)) {
+              if (usersCMatchCount.has(results[i].user_id)) {
+                usersCMatchCount.set(
+                  results[i].user_id,
+                  usersCMatchCount.get(results[i].user_id) + 1
+                );
+              } else {
+                usersCMatchCount.set(results[i].user_id, 1);
+              }
+            }
           }
         }
-      }
-    }
-
-    console.log(id);
-    console.log(id);
-
-    console.log(usersCMatchCount);
-    const obj = Object.fromEntries(usersCMatchCount);
-    const json = JSON.stringify(obj);
-    console.log(json);
-    res.send(json);
+    
+        console.log(id);
+        console.log(id);
+    
+        console.log(usersCMatchCount);
+        const obj = Object.fromEntries(usersCMatchCount);
+        const json = JSON.stringify(obj);
+        console.log(json);
+        res.send(json);
+      });
   });
+
+  
 });
 
 app.get("/userinfo", (req, res) => {
