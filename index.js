@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 const oauth2Client = new google.auth.OAuth2(
   "905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com",
   "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",
-  "http://localhost:3000/addyoutubechannels"
+  "https://songerated.vercel.app//addyoutubechannels"
 );
 
 const db = mysql.createPool({
@@ -79,12 +79,14 @@ app.post("/addchannels", (req, res) => {
   var query = ""
   console.log(channels)
 
-  channels.forEach(channel => {
-    query += `INSERT INTO youtube_channels(channel_id, channel_title)VALUES(${channel.snippet.channelId.id}, '${channel.snippet.title}') ON DUPLICATE KEY UPDATE channel_id=channel_id;`;
+  for(var i = 0; i < channels.length; i++){
+    var channel = channels[i]
+    query += `INSERT INTO youtube_channels(channel_id, channel_title)VALUES('${channel.id}', '${channel.snippet.title}') ON DUPLICATE KEY UPDATE channel_id=channel_id;`;
     query += `INSERT INTO user_channels(channel_id, user_id)VALUES('${
-      channel.snippet.channelId
+      channel.id
     }', '${id}') ON DUPLICATE KEY UPDATE id=id;`;
-  });
+  };
+
 
   db.query(query, (err, results) => {
     if (err) {
