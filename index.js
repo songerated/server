@@ -82,7 +82,7 @@ app.post('/addmovie', (req, res) => {
 })
 
 app.post('/tracks',(req,res)=>{
-    var body = req.body.topTracks.items;
+    var body = req.body.topTracks;
     var id = req.body.uid;
 
     console.log(id)
