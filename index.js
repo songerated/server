@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 const oauth2Client = new google.auth.OAuth2(
   "905345943853-5st8lrhfpfrla02cnp6bso4ev5rs9g28.apps.googleusercontent.com",
   "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",
-  "https://songerated.vercel.app/addyoutubechannels"
+  "http://localhost:3000/addyoutubechannels"
 );
 
 const db = mysql.createPool({
