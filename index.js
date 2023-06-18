@@ -80,9 +80,9 @@ app.post("/addchannels", (req, res) => {
   console.log(channels)
 
   channels.forEach(channel => {
-    query += `INSERT INTO youtube_channels(channel_id, channel_title)VALUES(${channel.id}, '${channel.title}') ON DUPLICATE KEY UPDATE channel_id=channel_id;`;
+    query += `INSERT INTO youtube_channels(channel_id, channel_title)VALUES(${channel.snippet.channelId.id}, '${channel.snippet.title}') ON DUPLICATE KEY UPDATE channel_id=channel_id;`;
     query += `INSERT INTO user_channels(channel_id, user_id)VALUES('${
-      channel.id
+      channel.snippet.channelId
     }', '${id}') ON DUPLICATE KEY UPDATE id=id;`;
   });
 
