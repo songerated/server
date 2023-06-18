@@ -163,7 +163,7 @@ app.get("/userchannelslist", (req, res) => {
   var userid = req.query.uid;
   const query = `SELECT youtube_channels.channel_title, user_channels.id FROM defaultdb.user_channels
 INNER JOIN youtube_channels ON youtube_channels.channel_id = user_channels.channel_id
-WHERE user_channels.user_id = `${userid}`
+WHERE user_channels.user_id = '${userid}'
 ;`;
   db.query(query, (err, results) => {
     if (err) {
