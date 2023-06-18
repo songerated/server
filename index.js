@@ -73,6 +73,28 @@ app.post("/addmovie", (req, res) => {
   });
 });
 
+app.post("/addchannels", (req, res) => {
+  var channels = req.body.channels;
+  var id = req.body.uid;
+  var query = ""
+  console.log(channels)
+
+  channels.forEach(channel => {
+    query += `INSERT INTO youtube_channels(channel_id, channel_title)VALUES(${channel.id}, '${channel.title}') ON DUPLICATE KEY UPDATE channel_id=channel_id;`;
+    query += `INSERT INTO user_channels(channel_id, user_id)VALUES('${
+      channel.id
+    }', '${id}') ON DUPLICATE KEY UPDATE id=id;`;
+  });
+
+  db.query(query, (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+
+    res.send(results);
+  });
+});
+
 app.post("/tracks", (req, res) => {
   var body = req.body.topTracks;
   var id = req.body.uid;
