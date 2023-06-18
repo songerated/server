@@ -159,6 +159,22 @@ app.get("/usermovies", (req, res) => {
   });
 });
 
+app.get("/userchannelslist", (req, res) => {
+  var userid = req.query.uid;
+  const query = `SELECT youtube_channels.channel_title, user_channels.id FROM defaultdb.user_channels
+INNER JOIN youtube_channels ON youtube_channels.channel_id = user_channels.channel_id
+WHERE user_channels.user_id = `${userid}`
+;`;
+  db.query(query, (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+
+    res.send(results);
+  });
+});
+
+
 app.get("/usersongs", (req, res) => {
   var userid = req.query.uid;
   const query = `SELECT songs.song_name, album.album_name, artist.artist_name FROM defaultdb.user_info
